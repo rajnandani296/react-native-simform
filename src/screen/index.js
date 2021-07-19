@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
   headerView: {
     marginHorizontal: 10,
     marginVertical: 10,
+    marginTop: Platform.OS == 'ios' ? 50 : 0,
   },
   headerInnerView: {
     flexDirection: 'row',
