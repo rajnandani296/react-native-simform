@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {fetchChemicalRecord} from '../action';
 import {Images} from '../constants/Images';
-import {BLUE, GRAY} from '../constants/Color';
+import {BLUE, GRAY, GREEN, WHITE} from '../constants/Color';
 import {useSelector, useDispatch} from 'react-redux';
 import {Strings} from '../constants/Strings';
 
@@ -56,9 +56,10 @@ const MyComponent = () => {
     });
     console.log('===', selectedValue);
     let items = selectedValue.filter(el => {
-      return el != null;
+      return el;
     });
-    if (items && items.length) {
+    console.log('items', items);
+    if (items && items.length > 0) {
       alert(items);
     } else {
       alert('Please select item');
@@ -133,7 +134,12 @@ const MyComponent = () => {
     return (
       <View style={styles.colorStripView}>
         <TouchableOpacity
-          style={[styles.colorTouchView, {borderWidth: value.active ? 2 : 0}]}
+          style={[
+            styles.colorTouchView,
+            {
+              borderColor: value.active ? GREEN : WHITE,
+            },
+          ]}
           onPress={() => {
             onColorSelection(headerIndex, value.value, value.color);
           }}>
@@ -176,6 +182,7 @@ const MyComponent = () => {
       {renderHeaderView()}
 
       <ScrollView
+        showsVerticalScrollIndicator={false}
         style={styles.scrollContainer}
         contentContainerStyle={{paddingBottom: 50}}>
         {chemicalData
@@ -190,7 +197,10 @@ const MyComponent = () => {
                     value.values,
                   )}
                   {renderSideStrip(headerIndex, value.selectedColor)}
-                  <ScrollView style={styles.colorStripScroll} horizontal>
+                  <ScrollView
+                    style={styles.colorStripScroll}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}>
                     {value.values.map((value, childIndex) => {
                       return renderColorCell(headerIndex, value);
                     })}
@@ -209,6 +219,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    //paddingHorizontal: 15,
   },
   headerText: {
     fontSize: 25,
@@ -240,73 +251,76 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    paddingHorizontal: 15,
   },
   titleContainer: {
-    marginRight: 20,
+    marginRight: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   titleText: {
     marginTop: 30,
-    marginStart: 60,
+    marginStart: 40,
     fontSize: 15,
     color: GRAY,
     fontWeight: 'bold',
   },
   unitText: {
     marginTop: 30,
-    marginStart: 60,
     fontSize: 15,
     color: GRAY,
     fontWeight: '100',
   },
   textInput: {
     marginTop: 20,
-    width: 70,
+    width: 60,
     textAlign: 'center',
     borderColor: GRAY,
     borderRadius: 5,
     borderWidth: 1,
-    height: 40,
+    height: 38,
   },
   sideStrip: {
     marginStart: 5,
-    borderLeftWidth: 1.5,
-    borderRightWidth: 1.5,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     //borderRadius: 5,
     position: 'absolute',
     alignItems: 'center',
     height: 150,
     overflow: 'hidden',
     borderColor: GRAY,
-    width: 30,
+    width: 24,
   },
   selectedColorStrip: {
-    marginTop: 65,
+    marginTop: 70,
     position: 'absolute',
-    height: 30,
+    height: 20,
     width: 30,
   },
   colorStripScroll: {
-    marginStart: 50,
+    marginStart: 38,
+    marginTop: 8,
   },
   colorStripView: {
     alignItems: 'center',
   },
   colorTouchView: {
-    margin: 5,
+    margin: 3,
     borderRadius: 8,
     padding: 1,
-    borderColor: '#87BE17',
+    borderColor: GREEN,
     overflow: 'hidden',
+    borderWidth: 2,
   },
   colorBoxView: {
-    borderRadius: 8,
-    padding: 15,
+    borderRadius: 5,
+    padding: 10,
     height: 20,
   },
   testValue: {
     color: GRAY,
+    fontSize: 12,
   },
 });
 
